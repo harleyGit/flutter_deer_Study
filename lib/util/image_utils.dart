@@ -18,6 +18,7 @@ class ImageUtils {
     if (TextUtil.isEmpty(imageUrl)) {
       return AssetImage(getImgPath(holderImg));
     }
+    //网络图片加载:https://blog.csdn.net/qq_33224517/article/details/118079879
     return CachedNetworkImageProvider(imageUrl!);
   }
 }

@@ -40,9 +40,9 @@ class MyButton extends StatelessWidget {
     return TextButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        // 文字颜色
+        // 文字颜色, 使用resolveWith为不同状态提供不同的文本颜色
         foregroundColor: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.disabled)) {
+            if (states.contains(MaterialState.disabled)) {//确定组件是否被禁用
               return disabledTextColor ?? (isDark ? Colours.dark_text_disabled : Colours.text_disabled);
             }
             return textColor ?? (isDark ? Colours.dark_button_text : Colors.white);
@@ -60,6 +60,8 @@ class MyButton extends StatelessWidget {
           return (textColor ?? (isDark ? Colours.dark_button_text : Colors.white)).withOpacity(0.12);
         }),
         // 按钮最小大小
+        //MaterialStateProperty.all 是 Flutter 中用于在所有状态下设置相同值的方法。在你提供的例子中，MaterialStateProperty.all<Size>(Size(minWidth!, minHeight!)) 用于设置在所有状态下都使用相同的 Size 值
+        //<Size>: 这是指定泛型类型的语法，指示 MaterialStateProperty.all 将返回一个 MaterialStateProperty<Size> 类型的对象
         minimumSize: (minWidth == null || minHeight == null) ? null : MaterialStateProperty.all<Size>(Size(minWidth!, minHeight!)),
         padding: MaterialStateProperty.all<EdgeInsetsGeometry>(padding),
         shape: MaterialStateProperty.all<OutlinedBorder>(

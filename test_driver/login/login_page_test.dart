@@ -41,7 +41,6 @@ void main() {
 
       final SerializableFinder textField = find.byValueKey('phone');
       await driver.tap(textField);  // 点击输入框，给予焦点
-      await delayed();
       await driver.enterText('15000000000');  // 输入内容
       await delayed();
       
@@ -50,13 +49,11 @@ void main() {
 
       final SerializableFinder textField2 = find.byValueKey('vcode');
       await driver.tap(textField2);
-      await delayed();
       await driver.enterText('123456');
       await delayed();
 
       final SerializableFinder textField3 = find.byValueKey('password');
       await driver.tap(textField3);
-      await delayed();
       await driver.enterText('111111');
       await delayed();
 
@@ -74,12 +71,10 @@ void main() {
     test('登录页测试',() async {
       final SerializableFinder textField = find.byValueKey('phone');
       await driver.tap(textField);
-      await delayed();
       await driver.enterText('15000000000');
       await delayed();
       final SerializableFinder textField2 = find.byValueKey('password');
       await driver.tap(textField2);
-      await delayed();
       await driver.enterText('111111');
       await delayed();
       // 点击密码可见两次

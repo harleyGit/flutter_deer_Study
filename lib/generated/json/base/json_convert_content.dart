@@ -14,8 +14,21 @@ import 'package:flutter_deer/generated/json/search_entity.g.dart';
 import 'package:flutter_deer/shop/models/user_entity.dart';
 import 'package:flutter_deer/generated/json/user_entity.g.dart';
 
+/*
+*全局变量 原因可能有几个:
+  1. 全局访问： 将 jsonConvert 定义在类的外部，使得它可以在整个文件（文件级别作用域）中被访问。
+  这样，其他类或方法可以轻松地访问并使用这个 jsonConvert 实例。
+
+  2. 单例模式： 如果 JsonConvert 类是一个单例模式（Singleton），即整个应用程序只允许存在一个实例，这种在类外部创建实例的方式就是为了确保整个应用程序共享同一个实例。
+  在这种情况下，JsonConvert 的构造函数可能被设置为私有，以确保只有一个实例被创建。
+
+  3. 依赖注入： 这种方式也可能是依赖注入的一部分。
+  通过将 jsonConvert 实例在类的外部创建，可以轻松地注入到需要使用它的类或方法中，而不必在每个类内部都创建新的实例
+*/
+//全局变量 jsonConvert
 JsonConvert jsonConvert = JsonConvert();
 
+//数据转换类
 class JsonConvert {
 
   T? convert<T>(dynamic value) {
@@ -30,6 +43,8 @@ class JsonConvert {
       return null;
     }
     try {
+      //toList() 是一种用于将可迭代对象（iterable）转换为列表（List）的方法。
+      //这个方法常常用于将集合类型（如Set、Queue、Iterable等）转换为列表，使得集合中的元素按照顺序排列在列表中。
       return value.map((dynamic e) => asT<T>(e)).toList();
     } catch (e, stackTrace) {
       print('asT<$T> $e $stackTrace');
@@ -48,6 +63,14 @@ class JsonConvert {
       return <T>[];
     }
   }
+
+  /*
+    这是一个 Dart 泛型方法，名为 asT，其目的是将动态类型 value 强制转换为泛型类型 T
+      T?： 这表示返回类型为 T?，即可空的泛型类型。返回值是泛型类型 T 或者 null
+      asT<T extends Object?>： 这是方法的名称，使用了 Dart 的泛型特性。
+        T 是一个泛型参数，它继承自 Object?，表示可以是任何空类型，在 Dart 语言中，Object 是所有非空类型的基类，而 Object? 表示可以接受 null 值的 Object 类型
+  */
+
   T? asT<T extends Object?>(dynamic value) {
     if (value is T) {
       return value;
@@ -58,6 +81,8 @@ class JsonConvert {
       if (type == "String") {
         return valueS as T;
       } else if (type == "int") {
+        //int.tryParse 是一个用于将字符串转换为整数的方法。
+        //它的作用是尝试将传入的字符串转换为整数，如果转换成功，则返回相应的整数值，如果转换失败，则返回 null
         final int? intValue = int.tryParse(valueS);
         if (intValue == null) {
           return double.tryParse(valueS)?.toInt() as T?;
@@ -81,10 +106,15 @@ class JsonConvert {
     }
   } 
 	//Go back to a single instance by type
+  //根据泛型类型 M 判断并将给定的 JSON 数据转换为相应的 Dart 对象
 	static M? _fromJsonSingle<M>(Map<String, dynamic> json) {
+    //获取泛型类型 M 的字符串表示。这里使用 toString 将类型名转换为字符串。
 		final String type = M.toString();
-		if(type == (BankEntity).toString()){
-			return BankEntity.fromJson(json) as M;
+		if(type == (BankEntity).toString()){//使用字符串表示的泛型类型 type 与 (BankEntity).toString() 进行比较。这里假设 M 是 BankEntity 类型
+			//如果泛型类型 M 是 BankEntity 类型，就执行这个分支
+      //调用 BankEntity.fromJson(json) 将给定的 JSON 数据转换为 BankEntity 对象
+      //使用 as M 将结果强制类型转换为泛型类型 M。
+      return BankEntity.fromJson(json) as M;
 		}
 		if(type == (CityEntity).toString()){
 			return CityEntity.fromJson(json) as M;
@@ -114,8 +144,11 @@ class JsonConvert {
 }
 
   //list is returned by type
+  //一个静态方法,根据泛型类型 M 来判断并转换列表中的数据
 	static M? _getListChildType<M>(List<dynamic> data) {
-		if(<BankEntity>[] is M){
+		if(<BankEntity>[] is M){//使用泛型类型 M 的运行时类型检查。通过 <BankEntity>[] is M，判断 M 是否是 List<BankEntity> 类型
+      //将 data 列表中的每个元素通过 BankEntity.fromJson 转换为 BankEntity 对象，最后将结果转换为 List<BankEntity>。
+      //as M 将结果强制类型转换为泛型类型 M。
 			return data.map<BankEntity>((e) => BankEntity.fromJson(e)).toList() as M;
 		}
 		if(<CityEntity>[] is M){

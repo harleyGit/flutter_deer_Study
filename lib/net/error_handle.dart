@@ -33,9 +33,11 @@ class ExceptionHandle {
   };
 
   static NetError handleException(dynamic error) {
+    //debugPrint 是 Flutter 提供的用于打印调试信息的函数。它是 print 函数的一种替代，但在开发环境下提供更多的调试信息
     debugPrint(error.toString());
-    if (error is DioException) {
+    if (error is DioError) {
       if (error.type.errorCode == 0) {
+        //根据错误,返回不同错误类型(其实就是文本描述和code码)
         return _handleException(error.error);
       } else {
         return _errorMap[error.type.errorCode]!;
@@ -68,15 +70,13 @@ class NetError{
   String msg;
 }
 
-extension DioErrorTypeExtension on DioExceptionType {
+extension DioErrorTypeExtension on DioErrorType {
   int get errorCode => [
     ExceptionHandle.connect_timeout_error,
     ExceptionHandle.send_timeout_error,
     ExceptionHandle.receive_timeout_error,
     0,
-    0,
     ExceptionHandle.cancel_error,
     0,
-    ExceptionHandle.unknown_error,
   ][index];
 }

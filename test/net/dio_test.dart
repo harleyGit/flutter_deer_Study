@@ -19,8 +19,8 @@ void main() {
         onSuccess: (data) {
           expect(data?.name, '唯鹿');
         },
-        onError: (code, msg) {
-          debugPrint('$code, $msg');
+        onError: (_, __) {
+          debugPrint('$_, $__');
         }
       );
     });

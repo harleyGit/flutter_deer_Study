@@ -1,13 +1,5 @@
 # Change Log:
 
-## 1.3.2
-
-* Android导航栏颜色优化。
-
-## 1.3.1
-
-* Flutter SDK升至3.16.5。
-
 ## 1.3.0
 
 * 适配Android 13。

@@ -19,7 +19,7 @@ class MySearchBar extends StatefulWidget implements PreferredSizeWidget {
 
   final String backImg;
   final String hintText;
-  final void Function(String)? onPressed;
+  final Function(String)? onPressed;
 
   @override
   _MySearchBarState createState() => _MySearchBarState();
@@ -164,7 +164,7 @@ class _MySearchBarState extends State<MySearchBar> {
     );
     
     return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: isDark ? ThemeUtils.light : ThemeUtils.dark,
+      value: isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
       child: Material(
         color: context.backgroundColor,
         child: SafeArea(

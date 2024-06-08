@@ -9,17 +9,20 @@ class Log {
   static const String tag = 'DEER-LOG';
 
   static void init() {
+    //LogUtil : 简单封装打印日志:isDebug: 模式, tag 标签
     LogUtil.init(isDebug: !Constant.inProduction, maxLen: 512);
   }
 
   static void d(String msg, {String tag = tag}) {
     if (!Constant.inProduction) {
+      //日志v，只在debug模式输出
       LogUtil.v(msg, tag: tag);
     }
   }
 
   static void e(String msg, {String tag = tag}) {
     if (!Constant.inProduction) {
+      //日志e
       LogUtil.e(msg, tag: tag);
     }
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//ChangeNotifier 是 Flutter 中实现状态管理的基础类之一，当状态发生变化时，它会通知侦听器（通常是 Consumer 或 Provider.of），以便更新 UI。
 class GoodsPageProvider extends ChangeNotifier {
 
   /// Tab的下标

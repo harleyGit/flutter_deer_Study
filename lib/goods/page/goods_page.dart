@@ -25,7 +25,9 @@ class GoodsPage extends StatefulWidget {
 class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
 
   final List<String> _sortList = ['全部商品', '个人护理', '饮料', '沐浴洗护', '厨房用具', '休闲食品', '生鲜水果', '酒水', '家庭清洁'];
+  //TabController 是 Flutter 中用于控制 TabBar 和 TabBarView 的控制器。它允许您以编程方式管理选项卡栏和相应的内容视图之间的关联，并控制选项卡的切换。
   TabController? _tabController;
+  //PageController 是 Flutter 中用于控制 PageView 的滚动和页面切换的控制器。它提供了一种简单而强大的方式来管理页面视图的滚动行为，包括手动滑动到指定页面、自动滚动到下一页等操作。
   final PageController _pageController = PageController();
 
   final GlobalKey _addKey = GlobalKey();
@@ -57,12 +59,18 @@ class _GoodsPageState extends State<GoodsPage> with SingleTickerProviderStateMix
     super.build(context);
     final Color? iconColor = ThemeUtils.getIconColor(context);
     return ChangeNotifierProvider<GoodsPageProvider>(
+      /**
+       * create 参数是一个回调函数，用于创建和提供 GoodsPageProvider 的实例。
+       * 在这个例子中，provider 是已经创建的 GoodsPageProvider 实例。
+       * 通常，我们会在这里创建一个新的实例，并将其提供给小部件树。
+       * 这个回调函数接受一个 _ 参数，表示上下文，但在这个例子中，它并没有使用上下文。
+      */
       create: (_) => provider,
       child: Scaffold(
         appBar: AppBar(
           actions: <Widget>[
             IconButton(
-              tooltip: '搜索商品',
+              tooltip: '搜索商品',//长按以后会有提示
               onPressed: () => NavigatorUtils.push(context, GoodsRouter.goodsSearchPage),
               icon: LoadAssetImage(
                 'goods/search',

@@ -55,10 +55,11 @@ class _WithdrawalPageState extends State<WithdrawalPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvoked: (_) {
+    return WillPopScope(
+      onWillPop: () {
         /// 拦截返回，关闭键盘，否则会造成上一页面短暂的组件溢出
         FocusManager.instance.primaryFocus?.unfocus();
+        return Future.value(true);
       },
       child: Scaffold(
         appBar: const MyAppBar(

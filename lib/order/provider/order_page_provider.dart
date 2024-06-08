@@ -7,7 +7,7 @@ class OrderPageProvider extends ChangeNotifier {
   int get index => _index;
   
   void refresh() {
-    notifyListeners();
+    notifyListeners();// 通知所有监听器（观察者）状态已发生变化
   }
   
   void setIndex(int index) {

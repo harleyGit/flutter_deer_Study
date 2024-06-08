@@ -9,17 +9,18 @@ class NavigatorUtils {
   static void push(BuildContext context, String path,
       {bool replace = false, bool clearStack = false, Object? arguments}) {
     unfocus();
+    //路由跳转:https://juejin.cn/post/6974393965843841055
     Routes.router.navigateTo(context, path,
       replace: replace,
       clearStack: clearStack,
-      transition: TransitionType.native,
+      transition: TransitionType.native,//原生形式
       routeSettings: RouteSettings(
         arguments: arguments,
       ),
     );
   }
 
-  static void pushResult(BuildContext context, String path, void Function(Object) function,
+  static void pushResult(BuildContext context, String path, Function(Object) function,
       {bool replace = false, bool clearStack = false, Object? arguments}) {
     unfocus();
     Routes.router.navigateTo(context, path,

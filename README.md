@@ -56,7 +56,7 @@
 
 具体可以下载体验：
 
-Android版安装包：[点击去下载](https://github.com/simplezhli/flutter_deer/releases)。
+Android版安装包：[点击下载](https://www.pgyer.com/oEm8me)，下载密码：`111111`。
 
 iOS需要自行下载代码运行。
 
@@ -64,11 +64,11 @@ Web体验地址：https://simplezhli.github.io/flutter_deer/
 
 ## 项目运行环境
 
-[![flutter_deer driver](https://github.com/simplezhli/flutter_deer/actions/workflows/flutter-drive.yml/badge.svg?branch=master)](https://github.com/simplezhli/flutter_deer/actions/workflows/flutter-drive.yml)
+[![Build Status](https://github.com/simplezhli/flutter_deer/workflows/flutter_deer%20driver/badge.svg?branch=master)](https://github.com/simplezhli/flutter_deer/actions?query=workflow%3A%22flutter_deer+driver%22+branch%3Amaster)
 
-    1. Flutter version 3.22.0
+    1. Flutter version 3.10.0
 
-    2. Dart version 3.4.0
+    2. Dart version 3.0.0
 
 ## 注意事项
 
@@ -143,6 +143,7 @@ Web体验地址：https://simplezhli.github.io/flutter_deer/
 | [rxdart](https://github.com/ReactiveX/rxdart)                         | **Dart的响应式扩展** |
 | [webview_flutter](https://github.com/flutter/plugins/tree/master/packages/webview_flutter)    | **WebView插件**       |
 | [keyboard_actions](https://github.com/diegoveloper/flutter_keyboard_actions)                  | **处理键盘事件**       |
+| [sticky_headers](https://github.com/fluttercommunity/flutter_sticky_headers)   | **列表悬浮头**       |
 | [azlistview](https://github.com/flutterchina/azlistview)              | **城市选择列表**   |
 | [date_utils](https://github.com/apptreesoftware/date_utils)           | **常用的日期工具类** |
 | [bezier_chart](https://github.com/aeyrium/bezier-chart)               | **曲线图表**       |
@@ -181,9 +182,7 @@ Web体验地址：https://simplezhli.github.io/flutter_deer/
 
 - 部分使用的到的三方库没有适配3.0.0，flutter_swiper（flutter_swiper_null_safety_flutter3替代）、flustars（flustars_flutter3替代）、azlistview（升级scrollable_positioned_list）。
 
-- 3.10.0 已知存在问题(#105203 #113595)
-
-- 2.0.0 已知存在问题(#68571 #73351 #74890 #79773 #79931)
+- 2.0.0 已知存在问题(#68571 #73351 #73388 #74890 #79773 #79931)
 
 - ListView在没有设置分割线的情况下，个别Item之间存在大约1像素的间隔（[像素对齐问题](https://github.com/flutter/flutter/issues/14288)）。
 

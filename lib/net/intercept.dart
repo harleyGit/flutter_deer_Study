@@ -12,15 +12,22 @@ import 'package:sprintf/sprintf.dart';
 import 'dio_utils.dart';
 import 'error_handle.dart';
 
+//扩展拦截器类:https://juejin.cn/post/6844903940056694798#heading-4
 class AuthInterceptor extends Interceptor {
+
+  // 自定义请求拦截器
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    //工具类介绍:https://www.jianshu.com/p/02907d4ae438
+    //SpUtil.getString(key):读取持久化中的数据, 单例"同步"SharedPreferences工具类
+    //使用了某个 .nullSafe 的包，可以确保你的代码也是空安全的，以获得 Dart 空安全特性的优势
     final String accessToken = SpUtil.getString(Constant.accessToken).nullSafe;
     if (accessToken.isNotEmpty) {
       options.headers['Authorization'] = 'token $accessToken';
     }
-    if (!Device.isWeb) {
+    if (!Device.isWeb) {//检测是否在 Web 环境中的标志
       // https://developer.github.com/v3/#user-agent-required
+      //将其值设置为 'Mozilla/5.0'，这是一个通用的用户代理字符串，模拟了一个基本的网页浏览器
       options.headers['User-Agent'] = 'Mozilla/5.0';
     }
     super.onRequest(options, handler);
@@ -37,6 +44,7 @@ class TokenInterceptor extends QueuedInterceptor {
     params['refresh_token'] = SpUtil.getString(Constant.refreshToken).nullSafe;
     try {
       _tokenDio ??= Dio();
+      //获取这个 Dio 实例的配置选项
       _tokenDio!.options = DioUtils.instance.dio.options;
       final Response<dynamic> response = await _tokenDio!.post<dynamic>('lgn/refreshToken', data: params);
       if (response.statusCode == ExceptionHandle.success) {
@@ -78,7 +86,7 @@ class TokenInterceptor extends QueuedInterceptor {
             onReceiveProgress: request.onReceiveProgress,
           );
           return handler.next(response);
-        } on DioException catch (e) {
+        } on DioError catch (e) {
           return handler.reject(e);
         }
       }
@@ -87,11 +95,15 @@ class TokenInterceptor extends QueuedInterceptor {
   }
 }
 
+
+//打印请求内容:https://juejin.cn/post/6844903940056694798#heading-5
+//通过控制台打印所有的请求信息以及相应信息，以方便我们调试请求中的问题
 class LoggingInterceptor extends Interceptor{
 
   late DateTime _startTime;
   late DateTime _endTime;
   
+  // BaseOptions、Options、RequestOptions 都可以配置参数，优先级别依次递增，且可以根据优先级别覆盖参数
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     _startTime = DateTime.now();
@@ -124,12 +136,13 @@ class LoggingInterceptor extends Interceptor{
   }
   
   @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
+  void onError(DioError err, ErrorInterceptorHandler handler) {
     Log.d('----------Error-----------');
     super.onError(err, handler);
   }
 }
 
+/// 适配器拦截
 class AdapterInterceptor extends Interceptor{
 
   static const String _kMsg = 'msg';
@@ -143,19 +156,22 @@ class AdapterInterceptor extends Interceptor{
   static const String _kSuccessFormat = '{"code":0,"data":%s,"message":""}';
   
   @override
+  //dynamic告诉变异器代码变量不用做类型检测,并且写代码的人知道自己在做什么:https://blog.51cto.com/liyuanjinglyj/5016333
+  //dynamic 可以表示任何类型:https://juejin.cn/post/6932012405702524941
   void onResponse(Response<dynamic> response, ResponseInterceptorHandler handler) {
     final Response<dynamic> r = adapterData(response);
     super.onResponse(r, handler);
   }
   
   @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
+  void onError(DioError err, ErrorInterceptorHandler handler) {
     if (err.response != null) {
       adapterData(err.response!);
     }
     super.onError(err, handler);
   }
 
+  //对响应数据的处理,进行各种适配,然后返回结果
   Response<dynamic> adapterData(Response<dynamic> response) {
     String result;
     String content = response.data?.toString() ?? '';

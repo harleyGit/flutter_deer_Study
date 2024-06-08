@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_deer/res/constant.dart';
 import 'package:flutter_deer/res/resources.dart';
 import 'package:flutter_deer/routers/web_page_transitions.dart';
 import 'package:sp_util/sp_util.dart';
-
-import '../../util/theme_utils.dart';
 
 extension ThemeModeExtension on ThemeMode {
   String get value => <String>['System', 'Light', 'Dark'][index];
@@ -39,7 +38,6 @@ class ThemeProvider extends ChangeNotifier {
 
   ThemeData getTheme({bool isDarkMode = false}) {
     return ThemeData(
-      useMaterial3: false,
       primaryColor: isDarkMode ? Colours.dark_app_main : Colours.app_main,
       colorScheme: ColorScheme.fromSwatch().copyWith(
         brightness: isDarkMode ? Brightness.dark : Brightness.light,
@@ -74,7 +72,7 @@ class ThemeProvider extends ChangeNotifier {
       appBarTheme: AppBarTheme(
         elevation: 0.0,
         color: isDarkMode ? Colours.dark_bg_color : Colors.white,
-        systemOverlayStyle: isDarkMode ? ThemeUtils.light : ThemeUtils.dark,
+        systemOverlayStyle: isDarkMode ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
       ),
       dividerTheme: DividerThemeData(
         color: isDarkMode ? Colours.dark_line : Colours.line,

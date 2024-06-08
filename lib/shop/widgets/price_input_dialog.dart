@@ -18,7 +18,7 @@ class PriceInputDialog extends StatefulWidget {
 
   final String? title;
   final double inputMaxPrice;
-  final void Function(String) onPressed;
+  final Function(String) onPressed;
   
   @override
   _PriceInputDialog createState() => _PriceInputDialog();

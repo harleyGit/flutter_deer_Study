@@ -14,9 +14,11 @@ class Utils {
 
   /// 打开链接
   static Future<void> launchWebURL(String url) async {
+    //从url中构造构造一个 Uri 对象,然后可以从这个对象中获取你想要的信息
+    //https://juejin.cn/post/7135423120164257805
     final Uri uri = Uri.parse(url);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
+    if (await canLaunchUrl(uri)) {//是否可以打开这个网址
+      await launchUrl(uri);//打开网址
     } else {
       Toast.show('打开链接失败！');
     }
@@ -32,10 +34,12 @@ class Utils {
     }
   }
 
+  //关于钱单位的工具类
   static String formatPrice(String price, {MoneyFormat format = MoneyFormat.END_INTEGER}){
     return MoneyUtil.changeYWithUnit(NumUtil.getDoubleByValueStr(price) ?? 0, MoneyUnit.YUAN, format: format);
   }
 
+  //处理键盘事件
   static KeyboardActionsConfig getKeyboardActionsConfig(BuildContext context, List<FocusNode> list) {
     return KeyboardActionsConfig(
       keyboardBarColor: ThemeUtils.getKeyboardActionsColor(context),
@@ -59,6 +63,8 @@ class Utils {
   static String? getCurrLocale() {
     final String locale = SpUtil.getString(Constant.locale)!;
     if (locale == '') {
+      //PlatformDispatcher是FlutterView的核心，FlutterView是对它的一层封装，是真正向Flutter Engine发送消息和得到回调的类；
+      //https://juejin.cn/post/6940478904071094279
       return PlatformDispatcher.instance.locale.languageCode;
     }
     return locale;
@@ -66,13 +72,14 @@ class Utils {
 
 }
 
+//展示自定义提示框:https://blog.csdn.net/Calvin_zhou/article/details/115768013
 Future<T?> showElasticDialog<T>({
   required BuildContext context,
   bool barrierDismissible = true,
   required WidgetBuilder builder,
 }) {
 
-  return showGeneralDialog(
+  return showGeneralDialog(//系统方法 
     context: context,
     pageBuilder: (BuildContext buildContext, Animation<double> animation, Animation<double> secondaryAnimation) {
       final Widget pageChild = Builder(builder: builder);
@@ -80,11 +87,11 @@ Future<T?> showElasticDialog<T>({
         child: pageChild,
       );
     },
-    barrierDismissible: barrierDismissible,
-    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-    barrierColor: Colors.black54,
-    transitionDuration: const Duration(milliseconds: 550),
-    transitionBuilder: _buildDialogTransitions,
+    barrierDismissible: barrierDismissible,//是否点击背景可以关掉
+    barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,//
+    barrierColor: Colors.black54,//背景颜色
+    transitionDuration: const Duration(milliseconds: 550),//动画时长
+    transitionBuilder: _buildDialogTransitions,//构建进出动画
   );
 }
 
@@ -109,6 +116,7 @@ Widget _buildDialogTransitions(BuildContext context, Animation<double> animation
 }
 
 /// String 空安全处理
+/// minxins方法与on: https://zhuanlan.zhihu.com/p/352184736
 extension StringExtension on String? {
   String get nullSafe => this ?? '';
 }
